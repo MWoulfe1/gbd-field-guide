@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>GBD Server Field Guide</title>
+<meta name="description" content="The mods, server rules and keys on the GBD Valheim server.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500;700;800&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<!--
+  TEMPLATE. scripts/valheim-guide.py fills in the data block at the bottom;
+  everything on the page is drawn from it. Edit the words in
+  valheim-guide.yml, not here.
+-->
+<style>
+:root{
+  --bg:#eef1ee; --surface:#f8faf7; --sunk:#e2e7e2; --ink:#1b2624; --ink-2:#4a5854; --ink-3:#6f7c77;
+  --line:#cbd4cd; --accent:#9a6a12; --accent-soft:#f2e3c2; --moss:#3f6448; --moss-soft:#dbe8dc;
+  --warn:#9c4a1c; --warn-soft:#f6e0d2; --key:#ffffff; --key-edge:#aeb9b1;
+  --display:"Alegreya Sans SC","Trebuchet MS",sans-serif; --body:"Alegreya Sans","Segoe UI",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#111a1a; --surface:#182322; --sunk:#0c1414; --ink:#e3e9e3; --ink-2:#aebbb5; --ink-3:#83918b;
+    --line:#2b3a38; --accent:#e0ac4a; --accent-soft:#3a2e17; --moss:#8fbf97; --moss-soft:#1f3326;
+    --warn:#f09a6a; --warn-soft:#3a2319; --key:#223030; --key-edge:#3b4d4a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#111a1a; --surface:#182322; --sunk:#0c1414; --ink:#e3e9e3; --ink-2:#aebbb5; --ink-3:#83918b;
+  --line:#2b3a38; --accent:#e0ac4a; --accent-soft:#3a2e17; --moss:#8fbf97; --moss-soft:#1f3326;
+  --warn:#f09a6a; --warn-soft:#3a2319; --key:#223030; --key-edge:#3b4d4a;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink); font:17px/1.55 var(--body); padding-inline:16px; padding-block:0 64px}
+.wrap{max-width:1060px; margin:0 auto; display:grid; gap:56px}
+h1,h2,h3{font-family:var(--display); text-wrap:balance; margin:0; letter-spacing:.01em}
+h2{font-size:1.75rem; font-weight:800}
+h3{font-size:1.1rem; font-weight:700}
+p{margin:0}
+a{color:var(--accent)}
+section{display:grid; gap:20px}
+.eyebrow{font-family:var(--display); font-weight:700; font-size:.82rem; letter-spacing:.14em; color:var(--accent)}
+.lede{color:var(--ink-2); max-width:62ch}
+code,.mono{font-family:var(--mono); font-size:.86em}
+
+header{padding-block:44px 28px; display:grid; gap:18px; border-bottom:1px solid var(--line)}
+header h1{font-size:clamp(2.3rem,6vw,3.6rem); font-weight:800; line-height:1.02}
+header h1 span{color:var(--accent)}
+.facts{display:flex; flex-wrap:wrap; gap:10px 28px; color:var(--ink-2); font-size:.95rem}
+.facts b{color:var(--ink); font-weight:700; font-variant-numeric:tabular-nums}
+
+.steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; counter-reset:s}
+.step{background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:16px 18px; display:grid; gap:6px; align-content:start; counter-increment:s}
+.step::before{content:counter(s); font-family:var(--display); font-weight:800; font-size:1.5rem; color:var(--accent); line-height:1}
+.step p{color:var(--ink-2); font-size:.96rem}
+.note{background:var(--warn-soft); border-left:3px solid var(--warn); padding:12px 16px; border-radius:0 6px 6px 0; font-size:.95rem; max-width:80ch}
+
+.feat-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:28px 36px}
+.feat-group{display:grid; gap:10px; align-content:start}
+.feat-group h3{padding-bottom:6px; border-bottom:2px solid var(--moss)}
+.feat{display:grid; grid-template-columns:1fr auto; gap:2px 12px; padding-block:7px; border-bottom:1px dashed var(--line)}
+.feat:last-child{border-bottom:0}
+.feat .what{font-weight:500}
+.feat .val{font-family:var(--mono); font-size:.84rem; color:var(--moss); background:var(--moss-soft); padding:1px 8px; border-radius:4px; align-self:start; white-space:nowrap; font-variant-numeric:tabular-nums}
+.feat .val.off{color:var(--ink-3); background:var(--sunk)}
+.feat .why{grid-column:1/-1; color:var(--ink-3); font-size:.9rem}
+
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:.95rem}
+caption{text-align:left; padding-bottom:8px}
+th,td{text-align:left; padding:8px 12px; border-bottom:1px solid var(--line)}
+th{font-family:var(--display); font-weight:700; letter-spacing:.06em; font-size:.82rem; color:var(--ink-3)}
+td.num{font-family:var(--mono); font-variant-numeric:tabular-nums; font-size:.86rem}
+td.up{color:var(--moss); font-weight:700}
+
+.keys{display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:0 36px}
+.krow{display:grid; grid-template-columns:118px 1fr; gap:12px; align-items:baseline; padding-block:6px; border-bottom:1px solid var(--line)}
+.krow small{display:block; color:var(--ink-3); font-size:.82rem}
+.krow .k{display:flex; flex-wrap:wrap; gap:4px}
+kbd{font-family:var(--mono); font-size:.8rem; background:var(--key); border:1px solid var(--key-edge); border-bottom-width:3px; border-radius:5px; padding:1px 7px; white-space:nowrap; color:var(--ink)}
+.clash{background:var(--warn-soft); border-radius:6px; padding:14px 16px; font-size:.95rem; max-width:90ch}
+.clash b{color:var(--warn)}
+
+.toolbar{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.chip{font:600 .86rem var(--body); border:1px solid var(--line); background:var(--surface); color:var(--ink-2); padding:5px 12px; border-radius:999px; cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.chip:focus-visible,#q:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+#q{font:inherit; font-size:.95rem; padding:6px 12px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); min-width:0; flex:1 1 200px; max-width:320px}
+.roster{display:grid; gap:36px}
+.cat{display:grid; gap:4px}
+.cat h3{display:flex; gap:10px; align-items:baseline}
+.cat h3 .n{font-family:var(--mono); font-size:.8rem; color:var(--ink-3); font-weight:500}
+.mod{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 14px; padding:12px 0; border-bottom:1px solid var(--line)}
+.mod .name{font-weight:700}
+.mod .author{color:var(--ink-3); font-weight:400; font-size:.88rem}
+.mod .ver{font-family:var(--mono); font-size:.8rem; color:var(--ink-3); font-variant-numeric:tabular-nums; align-self:start; padding-top:3px}
+.mod .desc{grid-column:1/-1; color:var(--ink-2); font-size:.95rem; max-width:78ch}
+.mod .issue{grid-column:1/-1; color:var(--warn); font-size:.92rem; max-width:78ch}
+.tags{grid-column:1/-1; display:flex; flex-wrap:wrap; gap:6px}
+.tag{font-size:.76rem; font-weight:600; padding:1px 8px; border-radius:4px; background:var(--sunk); color:var(--ink-2)}
+.tag.new{background:var(--accent-soft); color:var(--accent)}
+.tag.issue,.tag.off{background:var(--warn-soft); color:var(--warn)}
+.empty{color:var(--ink-3); font-style:italic}
+
+footer{color:var(--ink-3); font-size:.88rem; border-top:1px solid var(--line); padding-top:18px; display:grid; gap:6px}
+@media (max-width:560px){ body{font-size:16px} .krow{grid-template-columns:96px 1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="eyebrow">Valheim · dedicated server</p>
+  <h1>GBD<span>_</span>SERVER field guide</h1>
+  <p class="lede" id="lede">Everything that is different on our world: the mods everyone runs, the server-wide rule changes, and the keys that do the new things.</p>
+  <div class="facts" id="facts"></div>
+  <noscript><p class="note">This page needs JavaScript to show the mod list.</p></noscript>
+</header>
+
+<section aria-labelledby="join">
+  <p class="eyebrow">Getting in</p>
+  <h2 id="join">Install the GBD modpack</h2>
+  <div class="steps">
+    <div class="step"><h3>Install the manager</h3><p>Thunderstore Mod Manager, game set to Valheim.</p></div>
+    <div class="step"><h3>Get the modpack</h3><p>In the manager: <b>Online</b> → search <b class="pack-name"></b> → Download. Or open <a class="pack-link">its Thunderstore page</a>. It installs every mod at the server's exact versions.</p></div>
+    <div class="step"><h3>Start Modded</h3><p>Launch from the profile the pack created, then join <b class="server-name"></b>. The password is in Discord.</p></div>
+    <div class="step"><h3>When Discord says "Server updated"</h3><p>Installed → <b class="pack-name"></b> → <b>Update</b>. Just that one entry, not "Update all", which can pull versions newer than the server's.</p></div>
+  </div>
+  <p class="note">Mod updates happen on their own: the server applies them only when nobody is on, checks that it starts cleanly, and posts to Discord. If a mod breaks after a Valheim patch, the server switches it off and Discord says which one. If you get refused on join, update the modpack.</p>
+</section>
+
+<section aria-labelledby="rules">
+  <p class="eyebrow">Server-wide changes</p>
+  <h2 id="rules">What's different from vanilla</h2>
+  <p class="lede">These are set on the server and read from its live settings, so they're always what you'll get when you join.</p>
+  <div class="feat-grid" id="rule-groups"></div>
+  <div class="tbl-wrap">
+    <table>
+      <caption class="eyebrow">Container sizes (columns × rows)</caption>
+      <thead><tr><th scope="col">Container</th><th scope="col">Vanilla</th><th scope="col">Here</th><th scope="col">Slots</th></tr></thead>
+      <tbody id="containers"></tbody>
+    </table>
+  </div>
+</section>
+
+<section aria-labelledby="keys">
+  <p class="eyebrow">Controls</p>
+  <h2 id="keys">Keys the mods add</h2>
+  <div class="keys" id="keylist"></div>
+  <div class="clash" id="key-setup"></div>
+</section>
+
+<section aria-labelledby="mods">
+  <p class="eyebrow">The roster</p>
+  <h2 id="mods">All mods</h2>
+  <div class="toolbar" role="group" aria-label="Filter mods">
+    <input id="q" type="search" placeholder="Search mods" aria-label="Search mods">
+    <button class="chip" data-f="all" aria-pressed="true">All</button>
+    <button class="chip" data-f="new" aria-pressed="false">New</button>
+    <button class="chip" data-f="issue" aria-pressed="false">Known issues</button>
+    <button class="chip" data-f="client" aria-pressed="false">Client-only</button>
+  </div>
+  <div class="roster" id="roster"></div>
+  <p class="empty" id="none" hidden>No mods match that search.</p>
+</section>
+
+<footer id="footer"></footer>
+</div>
+
+<script id="guide-data" type="application/json">{"cats": [{"mods": [{"author": "Morda", "desc": "Loot finds its chest. Dump to matching chests, craft and build from chests, station auto-fill, storage displays, search and sort.", "issue": null, "name": "StoreAndCraft", "tags": [], "ver": "1.6.0"}, {"author": "MSchmoecker", "desc": "Several players can use the same chest at the same time.", "issue": null, "name": "MultiUserChest", "tags": [], "ver": "0.6.2"}, {"author": "RandyKnapp", "desc": "Worn gear gets its own slots, plus hotkeyed quick slots. Balance settings come from the server.", "issue": null, "name": "EquipmentAndQuickSlots", "tags": [], "ver": "3.1.3"}], "name": "Storage & crafting"}, {"mods": [{"author": "Advize", "desc": "Plant evenly spaced crops in rows and grids, harvest in bulk, optional auto-replant.", "issue": null, "name": "PlantEasily", "tags": [], "ver": "2.3.0"}, {"author": "Advize", "desc": "The cultivator can plant berry bushes, thistle, dandelions, mushrooms, extra tree types and decorative plants.", "issue": null, "name": "PlantEverything", "tags": [], "ver": "1.21.3"}, {"author": "AWLGaming", "desc": "New foods (pizza, burgers, pancakes, haggis, ice cream and more) cooked at a new Griddle, Grill, Prep Table and Oven. Boars drop pork and seagulls drop eggs.", "issue": "If the new food doesn't show up the first time, quit and restart once.", "name": "Bone Appetit", "tags": ["new", "issue"], "ver": "3.3.18"}, {"author": "Frenvius", "desc": "New crops (rice, tomatoes, pumpkins, apples and more) and new cooking. Works together with Bone Appetit.", "issue": null, "name": "Valharvest", "tags": [], "ver": "3.4.4"}, {"author": "OdinPlus", "desc": "Buildable bulk storage for seeds, fruit and vegetables.", "issue": null, "name": "OdinsFoodBarrels", "tags": [], "ver": "1.4.0"}, {"author": "OdinPlus", "desc": "Buildable custom plants, placed with the Shovel item.", "issue": null, "name": "PlantIt", "tags": [], "ver": "0.1.6"}], "name": "Farming & food"}, {"mods": [{"author": "BentoG", "desc": "Building pieces the base game leaves out.", "issue": null, "name": "MissingPieces", "tags": [], "ver": "2.3.2"}, {"author": "blacks7ar", "desc": "23 core-wood building pieces, from the author of FineWoodPieces.", "issue": null, "name": "CoreWoodPieces", "tags": [], "ver": "1.2.6"}, {"author": "blacks7ar", "desc": "Finewood versions of the wood pieces, stone roof shingles, thatch walls, clay pieces, containers and furniture.", "issue": null, "name": "FineWoodPieces", "tags": [], "ver": "1.6.7"}, {"author": "ComfyMods", "desc": "Precise rotation of pieces while building.", "issue": null, "name": "Gizmo", "tags": [], "ver": "1.16.0"}, {"author": "ComfyMods", "desc": "Resize and move the build menu, which all the new piece mods make crowded.", "issue": null, "name": "SearsCatalog", "tags": [], "ver": "1.9.0"}, {"author": "Nextek", "desc": "Faster movement and cheaper sprinting on paths and built floors.", "issue": null, "name": "SpeedyPaths", "tags": [], "ver": "1.0.9"}, {"author": "OdinPlus", "desc": "Castle building pieces.", "issue": null, "name": "OdinsKingdom", "tags": [], "ver": "1.6.3"}, {"author": "plumga", "desc": "Clutter and decor items.", "issue": null, "name": "Clutter", "tags": [], "ver": "0.1.7"}, {"author": "RandyKnapp", "desc": "Build requirements show how many you can build and how many you carry.", "issue": null, "name": "ImprovedBuildHud", "tags": ["client"], "ver": "1.0.8"}, {"author": "Searica", "desc": "Better hoe and cultivator tools for shaping terrain.", "issue": null, "name": "AdvancedTerrainModifiers", "tags": [], "ver": "1.5.7"}, {"author": "Thordomr", "desc": "Windows, doors, gates, a drawbridge and more.", "issue": null, "name": "More Gates", "tags": [], "ver": "1.0.10"}, {"author": "Valphi", "desc": "Ladders that work better.", "issue": null, "name": "BetterLaddersContinued", "tags": ["client"], "ver": "0.217.24"}], "name": "Building"}, {"mods": [{"author": "AWLGaming", "desc": "New capes with their own effects, and reworked vanilla capes.", "issue": null, "name": "DragoonCapes", "tags": [], "ver": "1.3.7"}, {"author": "Digitalroot", "desc": "Craftable bone arrows.", "issue": null, "name": "Bone Arrows", "tags": [], "ver": "1.0.48"}, {"author": "Digitalroot", "desc": "Melee attacks hit targets above or below you on slopes.", "issue": null, "name": "Slope Combat Assistance", "tags": [], "ver": "2.0.30"}, {"author": "ishid4", "desc": "Quiver slots, bow zoom, draw cancel and other bow changes.", "issue": null, "name": "BetterArchery", "tags": [], "ver": "2.0.5"}], "name": "Combat & hunting"}, {"mods": [{"author": "Meldurson", "desc": "Tame almost any creature, bosses included.", "issue": "Early release. Tell Mike if a tame behaves oddly.", "name": "LetMeTameYou", "tags": ["issue"], "ver": "0.1.0"}, {"author": "OdinPlus", "desc": "A horse to tame, breed, ride and armour. It can pull the cart.", "issue": null, "name": "OdinHorse", "tags": [], "ver": "1.9.1"}, {"author": "zolantris", "desc": "Build your own ships and land vehicles.", "issue": "One ship-anchor error seen so far. Tell Mike if an anchor misbehaves.", "name": "ValheimRAFT", "tags": ["issue"], "ver": "5.0.9"}], "name": "Taming, riding & ships"}, {"mods": [{"author": "MagiCorp", "desc": "How far away grass, terrain and the world are drawn and loaded. Optional on your side; set distances in F1.", "issue": null, "name": "Render Limits Fix", "tags": [], "ver": "1.16.0"}, {"author": "shudnal", "desc": "Edit mod settings in game. Press F1.", "issue": null, "name": "ConfigurationManager", "tags": [], "ver": "1.1.25"}, {"author": "shudnal", "desc": "Production timers, status and item tooltips, chest names, weather forecast.", "issue": null, "name": "MyLittleUI", "tags": [], "ver": "1.2.31"}, {"author": "Zenox", "desc": "Movable HUD bars, quality stars, durability colours, a better enemy health bar, and a party panel showing everyone's health and stamina.", "issue": null, "name": "BetterUI", "tags": [], "ver": "1.0.21"}], "name": "Interface & tools"}, {"mods": [{"author": "Grantapher", "desc": "The server-wide rule changes above. Must match the server exactly.", "issue": null, "name": "ValheimPlus", "tags": [], "ver": "10.3.0"}, {"author": "Ivvty", "desc": "Fewer hitches around big bases and faster portal trips, without changing how the game looks or plays.", "issue": null, "name": "SteadyFrame", "tags": ["new"], "ver": "1.0.5"}, {"author": "ontrigger", "desc": "Faster rendering, game logic and loading, on the server and on your PC. It doesn't change how the game plays.", "issue": null, "name": "ValheimPerformanceOptimizations", "tags": [], "ver": "1.2.3"}, {"author": "shudnal", "desc": "Shared library that syncs server settings to players.", "issue": null, "name": "ConditionalConfigSync", "tags": [], "ver": "1.0.11"}, {"author": "ValheimModding", "desc": "Library most of the content mods are built on. Must match the server exactly.", "issue": null, "name": "Jotunn", "tags": [], "ver": "2.30.2"}, {"author": "ValheimModding", "desc": "Shared library.", "issue": null, "name": "JsonDotNET", "tags": [], "ver": "13.0.4"}, {"author": "ValheimModding", "desc": "Shared library.", "issue": null, "name": "YamlDotNet", "tags": [], "ver": "16.3.1"}], "name": "Core & libraries"}], "containers": [{"here": "6 × 3", "name": "Wood chest", "slots": "10 → 18", "up": true, "vanilla": "5 × 2"}, {"here": "4 × 3", "name": "Personal chest", "slots": "6 → 12", "up": true, "vanilla": "3 × 2"}, {"here": "8 × 4", "name": "Reinforced chest", "slots": "24 → 32", "up": true, "vanilla": "6 × 4"}, {"here": "8 × 6", "name": "Blackmetal chest", "slots": "32 → 48", "up": true, "vanilla": "8 × 4"}, {"here": "8 × 4", "name": "Cart", "slots": "18 → 32", "up": true, "vanilla": "6 × 3"}, {"here": "4 × 2", "name": "Karve", "slots": "4 → 8", "up": true, "vanilla": "2 × 2"}, {"here": "8 × 4", "name": "Longship", "slots": "18 → 32", "up": true, "vanilla": "6 × 3"}], "footer": "Not in the pack: Mike's personal HD textures, terrain and skies. They're optional and heavy on the graphics card, and nobody needs them to join.", "key_setup": "Set these once in F1, because the modpack can't carry personal key settings. StoreAndCraft: AutoFillKey = G (the default B clashes with quick slot 3) and ActivityLogKey to anything but F10 (it clashes with first-person view). EquipmentAndQuickSlots: quick slot hotkeys 4-6 = 9, 0, - (unbound by default). PlantEasily: EnableSnappingKey = Insert (the default F10 clashes with first-person view).", "keys": [{"keys": ["."], "mod": "StoreAndCraft", "note": "Hotbar and favourites stay", "what": "Dump inventory into matching chests"}, {"keys": ["R"], "mod": "StoreAndCraft", "note": null, "what": "Sort the open chest"}, {"keys": ["Mouse 3"], "mod": "StoreAndCraft", "note": null, "what": "Store the hovered stack in its matching chest"}, {"keys": ["Y"], "mod": "StoreAndCraft", "note": null, "what": "Search your chests for an item"}, {"keys": ["F"], "mod": "StoreAndCraft", "note": null, "what": "Mark a favourite"}, {"keys": ["G", "N"], "mod": "StoreAndCraft", "note": "Look at it with the inventory closed", "what": "Toggle auto-fill / auto-store on a smelter"}, {"keys": ["Alt+E"], "mod": "StoreAndCraft", "note": null, "what": "Settings for a chest or station"}, {"keys": ["Z", "V", "B"], "mod": "EquipmentAndQuickSlots", "note": null, "what": "Quick slots 1-3"}, {"keys": ["9", "0", "-"], "mod": "EquipmentAndQuickSlots", "note": "Set these once in F1 (see below). The hotbar still uses 1-8", "what": "Quick slots 4-6"}, {"keys": ["Alt+1-3"], "mod": "BetterArchery", "note": null, "what": "Quiver slots"}, {"keys": ["Mouse 2"], "mod": "BetterArchery", "note": "E cancels the draw", "what": "Zoom while drawing a bow"}, {"keys": ["F8"], "mod": "PlantEasily", "note": "Arrow keys set rows and columns. Insert snapping. F6 auto-replant", "what": "Turn grid planting on or off"}, {"keys": ["F7"], "mod": "BetterUI", "note": null, "what": "Move and resize HUD bars"}, {"keys": ["F1"], "mod": "ConfigurationManager", "note": null, "what": "Mod settings"}, {"keys": ["F10"], "mod": "ValheimPlus", "note": "PgUp / PgDn change the field of view", "what": "First-person view"}, {"keys": ["Home", "End"], "mod": "ValheimPlus", "note": "Hold Left Alt to align", "what": "Grid alignment on or off / change the default"}], "new_days": 14, "pack": {"name": "GBD_Modpack", "url": "https://thunderstore.io/c/valheim/p/GBD845/GBD_Modpack/", "version": "1.0.22"}, "rules": [{"group": "Storage & crafting", "rows": [{"val": "150 m", "what": "Craft and build from nearby chests", "why": "Materials are pulled straight from storage."}, {"val": "50 m", "what": "Dump inventory into matching chests", "why": "Press . and each stack goes to a chest that already holds it."}, {"val": "50 m", "what": "Store the hovered stack in its matching chest", "why": "Middle-click a stack in your inventory."}, {"val": "off", "what": "Items on the ground go to matching chests"}, {"val": "20 m", "what": "Search chests and storage displays"}, {"val": "20 m", "what": "Smelters and kilns fill themselves from chests", "why": "Toggle it per station with G."}, {"val": "6", "what": "Quick slots"}, {"val": "×2", "what": "Stack sizes", "why": "Every stack holds more."}, {"val": "on", "what": "Picked-up items merge into existing stacks"}, {"val": "on", "what": "Gear repairs itself at a crafting station"}]}, {"group": "Gathering & carrying", "rows": [{"val": "×3", "what": "Metal from mining", "why": "Tin, copper, scrap, silver and flametal ore. Black metal from Fulings is unchanged."}, {"val": "500", "what": "Carry weight", "why": "Vanilla is 300. Megingjord still adds its bonus."}]}, {"group": "Building", "rows": [{"val": "off", "what": "Rain damage on buildings"}, {"val": "150 m", "what": "Workbench build range", "why": "Vanilla is 20 m."}, {"val": "80 m", "what": "No enemy spawns around a workbench"}, {"val": "+50%", "what": "Structural support", "why": "Wood, stone, iron, core wood, marble, grausten, ancient wood."}, {"val": "7.5 m", "what": "Hammer repairs everything nearby"}, {"val": "on", "what": "Torches and fires never need fuel"}, {"val": "on", "what": "Deconstructing always returns materials"}]}, {"group": "World & comfort", "rows": [{"val": "on", "what": "Shared map exploration", "why": "Everyone's explored areas show on everyone's map, with carts and boats."}, {"val": "on", "what": "Shared map pins"}, {"val": "+50%", "what": "Food lasts longer", "why": "Its effect still fades toward the end"}, {"val": "on", "what": "Crop notifier", "why": "Tells you when crops are ready."}, {"val": "on", "what": "Sleep without setting a spawn point"}, {"val": "on", "what": "Tames get knocked out instead of dying", "why": "They get back up after a short stun."}, {"val": "on", "what": "Build requirements shown on the HUD"}]}], "server": "GBD_SERVER", "updated": "2026-10-17", "world": "GBD_2024"}</script>
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById("guide-data").textContent);
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function $(id){ return document.getElementById(id); }
+  function each(sel, fn){ Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+
+  each(".pack-name", function(e){ e.textContent = D.pack.name; });
+  each(".pack-link", function(e){ e.href = D.pack.url; });
+  each(".server-name", function(e){ e.textContent = D.server; });
+  $("lede").innerHTML = "Everything that is different on our world, <b>" + esc(D.world) + "</b>: the mods everyone runs, the server-wide rule changes, and the keys that do the new things.";
+
+  var nNew = 0, nAll = 0;
+  D.cats.forEach(function(c){ c.mods.forEach(function(m){ nAll++; if (m.tags.indexOf("new") >= 0) nNew++; }); });
+  $("facts").innerHTML =
+    "<span><b>" + nAll + "</b> mods, one Thunderstore pack</span>" +
+    (nNew ? "<span><b>" + nNew + "</b> new in the last " + D.new_days + " days</span>" : "") +
+    "<span>Pack: <b>" + esc(D.pack.name + " " + (D.pack.version || "")) + "</b></span>" +
+    "<span>Updated <b>" + esc(D.updated) + "</b></span>";
+
+  $("rule-groups").innerHTML = D.rules.map(function(g){
+    return '<div class="feat-group"><h3>' + esc(g.group) + "</h3>" + g.rows.map(function(r){
+      return '<div class="feat"><span class="what">' + esc(r.what) + '</span><span class="val' + (r.val === "off" ? " off" : "") + '">' + esc(r.val) + "</span>" +
+        (r.why ? '<span class="why">' + esc(r.why) + "</span>" : "") + "</div>";
+    }).join("") + "</div>";
+  }).join("");
+
+  $("containers").innerHTML = D.containers.map(function(c){
+    return "<tr><td>" + esc(c.name) + '</td><td class="num">' + esc(c.vanilla) + '</td><td class="num' + (c.up ? " up" : "") + '">' + esc(c.here) + '</td><td class="num">' + esc(c.slots) + "</td></tr>";
+  }).join("");
+
+  var half = Math.ceil(D.keys.length / 2);
+  function krow(k){
+    return '<div class="krow"><span class="k">' + k.keys.map(function(x){ return "<kbd>" + esc(x) + "</kbd>"; }).join("") + "</span><span>" + esc(k.what) +
+      "<small>" + esc(k.mod) + (k.note ? " · " + esc(k.note) : "") + "</small></span></div>";
+  }
+  $("keylist").innerHTML = "<div>" + D.keys.slice(0, half).map(krow).join("") + "</div><div>" + D.keys.slice(half).map(krow).join("") + "</div>";
+  $("key-setup").innerHTML = "<p><b>Set a few keys once.</b> " + esc(D.key_setup) + "</p>";
+
+  $("footer").innerHTML = (D.footer ? "<p>" + esc(D.footer) + "</p>" : "") +
+    "<p>Built from what the server is running right now. Mods, versions and rule values are read from the server; this page updates itself when they change.</p>";
+
+  var LABEL = {"new": "New", "issue": "Known issue", "client": "Client-only", "off": "Switched off"};
+  var filter = "all";
+  try { var f = localStorage.getItem("gbd-filter"); if (f && LABEL[f]) filter = f; } catch (e) {}
+  function render(){
+    var term = $("q").value.trim().toLowerCase(), shown = 0, html = "";
+    D.cats.forEach(function(c){
+      var hits = c.mods.filter(function(m){
+        return (filter === "all" || m.tags.indexOf(filter) >= 0) &&
+          (!term || (m.name + " " + m.author + " " + m.desc).toLowerCase().indexOf(term) >= 0);
+      });
+      if (!hits.length) return;
+      shown += hits.length;
+      html += '<div class="cat"><h3>' + esc(c.name) + ' <span class="n">' + hits.length + "</span></h3>" + hits.map(function(m){
+        return '<div class="mod"><span class="name">' + esc(m.name) + ' <span class="author">by ' + esc(m.author) + '</span></span><span class="ver">' + esc(m.ver) + "</span>" +
+          '<p class="desc">' + esc(m.desc) + "</p>" + (m.issue ? '<p class="issue">' + esc(m.issue) + "</p>" : "") +
+          (m.tags.length ? '<div class="tags">' + m.tags.map(function(t){ return '<span class="tag ' + esc(t) + '">' + esc(LABEL[t] || t) + "</span>"; }).join("") + "</div>" : "") + "</div>";
+      }).join("") + "</div>";
+    });
+    $("roster").innerHTML = html;
+    $("none").hidden = shown > 0;
+    each(".chip", function(c){ c.setAttribute("aria-pressed", String(c.dataset.f === filter)); });
+  }
+  each(".chip", function(c){ c.addEventListener("click", function(){ filter = c.dataset.f; try { localStorage.setItem("gbd-filter", filter); } catch (e) {} render(); }); });
+  $("q").addEventListener("input", render);
+  render();
+})();
+</script>
+</body>
+</html>
